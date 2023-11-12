@@ -27,6 +27,7 @@ namespace BoilingDataProcessingWF
         double[] rho_vapour = new[] {9.4, 19.3, 28.74, 38.4, 48.0};
         double[] rho_liquid = new[] {1421.5, 1347.61, 1314.02, 1289.61, 1267.58};
         double g = 9.8;
+        double nig = 0;
         
         public void YagovCurve(int pressure)
         {
