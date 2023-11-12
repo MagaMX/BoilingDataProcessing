@@ -54,7 +54,7 @@ namespace BoilingDataProcessingWF
             yagov_chf_res = 0.06 * Math.Pow(rho_vapour[pressure], 0.6) * Math.Pow(sigma[pressure], 0.6) * Math.Pow((g  * (rho_liquid[pressure] - rho_vapour[pressure])) / mu[pressure], 0.2);
             return yagov_chf_res;
         }
-
+        int debil = 0;
         #endregion
     }
 }
