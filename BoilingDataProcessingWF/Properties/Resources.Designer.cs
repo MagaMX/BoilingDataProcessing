@@ -89,5 +89,15 @@ namespace BoilingDataProcessingWF.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Z_Corp_Logo {
+            get {
+                object obj = ResourceManager.GetObject("Z Corp Logo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }
