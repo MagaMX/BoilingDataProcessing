@@ -47,7 +47,7 @@ namespace BoilingDataProcessingWF
             label_Kandlikar.Visible = false;
 
             //Обработка событий
-            checkBox_CreateFile.CheckedChanged += new EventHandler(checkBox_CheckedChanged);
+            checkBox_CreateFile.CheckedChanged += new EventHandler(CheckBox_CheckedChanged);
             button_process.Click += Process_Click;
             Box_PressureBC.SelectedIndexChanged += Box_PressureBC_SelectedIndexChanged;
             Box_PressureCHF.SelectedIndexChanged += Box_PressureCHF_SelectedIndexChanged;
@@ -207,7 +207,7 @@ namespace BoilingDataProcessingWF
             label_XLSX_out.Text = xlsx_path_out;
         }
 
-        private void checkBox_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_CreateFile.Checked == true)
             {
