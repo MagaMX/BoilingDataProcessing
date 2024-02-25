@@ -11,7 +11,7 @@ namespace BoilingDataProcessingWF
     {
         #region PRIVATE
 
-        private double yagov_chf_res, kutateldze_chf_res;
+        private double yagov_chf_res, kutateladze_chf_res, kandlikar_chf_res;
         private int pressure;
 
         #endregion
@@ -31,6 +31,8 @@ namespace BoilingDataProcessingWF
         double[] r = new[] {112000.0, 106244.0, 100488.0, 94800.0, 89000.0};
         double[] rho_vapour = new[] {9.4, 19.3, 28.74, 38.4, 48.0};
         double[] rho_liquid = new[] {1421.5, 1347.61, 1314.02, 1289.61, 1267.58};
+        double teta = 40;
+        double phi = 0;
         double g = 9.8;
 
         public  List<double> YagovCurve()
@@ -50,17 +52,24 @@ namespace BoilingDataProcessingWF
             return yagov_curve_res;
         }
 
-        public double YagovCHF(int pressure)
+        public double KutateladzeCHF()
         {
-            kutateldze_chf_res = 0.14 * r[pressure] * Math.Sqrt(rho_vapour[pressure]) * Math.Pow(sigma[pressure] * g * (rho_liquid[pressure] - rho_vapour[pressure]), 0.25);
-            return kutateldze_chf_res;
+           kutateladze_chf_res = 0.14 * r[pressure] * Math.Sqrt(rho_vapour[pressure]) * Math.Pow(sigma[pressure] * g * (rho_liquid[pressure] - rho_vapour[pressure]), 0.25);
+            return kutateladze_chf_res;
         }
 
-        public double KutateladzeCHF(int pressure)
+        public double YagovCHF()
         {
-            yagov_chf_res = 0.06 * Math.Pow(rho_vapour[pressure], 0.6) * Math.Pow(sigma[pressure], 0.6) * Math.Pow((g  * (rho_liquid[pressure] - rho_vapour[pressure])) / mu[pressure], 0.2);
+            yagov_chf_res = 0.06 * r[pressure] * Math.Pow(rho_vapour[pressure], 0.6) * Math.Pow(sigma[pressure], 0.4) * Math.Pow((g  * (rho_liquid[pressure] - rho_vapour[pressure])) / mu[pressure], 0.2);
             return yagov_chf_res;
         }
+
+        public double KandlikarCHF()
+        {
+            kandlikar_chf_res = r[pressure] * Math.Pow(rho_vapour[pressure], 0.5) * ((1 + Math.Cos(teta * Math.PI / 180)) / 16) * Math.Pow((2/Math.PI) + (Math.PI/4) * (1 + Math.Cos(teta * Math.PI / 180)) * Math.Cos(phi * Math.PI / 180), 0.5) * Math.Pow(sigma[pressure] * g * (rho_liquid[pressure] - rho_vapour[pressure]), 0.25);
+            return kandlikar_chf_res;
+        }
+
         #endregion
     }
 }

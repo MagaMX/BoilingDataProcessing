@@ -14,7 +14,8 @@ namespace BoilingDataProcessingWF
     public partial class AppForm : Form
     {
         private string xlsx_path_in, xlsx_path_out, docx_path_in;
-        private int pressure;
+        private int pressureBC;
+        private int pressureCHF;
         private (List<double>, List<double>) result;
         private ToolTip tooltip = new System.Windows.Forms.ToolTip();
         private DataPoint lastDataPoint;
@@ -28,22 +29,34 @@ namespace BoilingDataProcessingWF
             this.Icon = Properties.Resources.AppIcon;
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            box_Pressure.Items.AddRange(new string[] { "1 атм", "2 атм", "3 атм", "4 атм", "5 атм" });
-            box_Pressure.DropDownStyle = ComboBoxStyle.DropDownList;
+            Box_PressureBC.Items.AddRange(new string[] { "1 атм", "2 атм", "3 атм", "4 атм", "5 атм" });
+            Box_PressureBC.DropDownStyle = ComboBoxStyle.DropDownList;
+            Box_PressureCHF.Items.AddRange(new string[] { "1 атм", "2 атм", "3 атм", "4 атм", "5 атм" });
+            Box_PressureCHF.DropDownStyle = ComboBoxStyle.DropDownList;
 
             customProgressBar.Visible = false;// Отключаем видимость прогрессбара до выполнения обработки
             chartBC.ChartAreas[0].Visible = false;// Отключаем видимость зоны графика до построения графика
+            chartCHF.ChartAreas[0].Visible = false;
             chartBC.Legends[0].Enabled = false;// Отключаем видимость легенды до построения графика
+            chartCHF.Legends[0].Enabled = false;
             dataGridViewBC.Visible = false;// Отключаем видимость таблицы данных эксперимента до построения графика
-            label_DataGridBC.Visible = false;
+            label_DataGridBC.Visible = false;// Отключаем видимость надписи до построения графика
+            labelCHFIncrease.Visible = false;
+            label_Yagov.Visible = false;
+            label_Kutateladze.Visible = false;
+            label_Kandlikar.Visible = false;
 
             //Обработка событий
             checkBox_CreateFile.CheckedChanged += new EventHandler(checkBox_CheckedChanged);
             button_process.Click += Process_Click;
-            box_Pressure.SelectedIndexChanged += box_Pressure_SelectedIndexChanged;
+            Box_PressureBC.SelectedIndexChanged += Box_PressureBC_SelectedIndexChanged;
+            Box_PressureCHF.SelectedIndexChanged += Box_PressureCHF_SelectedIndexChanged;
             button_GenerateChartCurve.Click += Generate_Chart_Curve_Click;
+            button_GenerateChartCHF.Click += Generate_Chart_CHF_Click;
             chartBC.MouseMove += ChartBC_MouseMove;
             chartBC.MouseLeave += ChartBC_MouseLeave;
+            chartCHF.MouseMove += ChartCHF_MouseMove;
+            chartCHF.MouseLeave += ChartCHF_MouseLeave;
         }
 
         private void Process_Click(object sender, EventArgs e)
@@ -277,7 +290,7 @@ namespace BoilingDataProcessingWF
                     chartBC.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
                 }
 
-                Expressions exp = new Expressions(pressure);
+                Expressions exp = new Expressions(pressureBC);
 
                 List<double> res = exp.YagovCurve();
 
@@ -318,10 +331,67 @@ namespace BoilingDataProcessingWF
             }
         }
 
-        private void box_Pressure_SelectedIndexChanged(object sender, EventArgs e)
+        private void Generate_Chart_CHF_Click(object sender, EventArgs e)
         {
-            string selectedState = box_Pressure.SelectedItem.ToString().Split(' ')[0];
-            pressure = Convert.ToInt32(selectedState);
+            try
+            {
+                chartCHF.Series["Эксперимент"].Points.Clear();
+                chartCHF.Series["Ягов"].Points.Clear();
+                chartCHF.Series["Кутателадзе"].Points.Clear();
+                chartCHF.Series["Кандликар"].Points.Clear();
+
+                chartCHF.Cursor = Cursors.Cross;
+
+                chartCHF.ChartAreas[0].Visible = true;
+                chartCHF.Legends[0].Enabled = true;
+                chartCHF.ChartAreas[0].AxisY.Minimum = 0;
+                chartCHF.ChartAreas[0].AxisY.Maximum = RoundToNearestMultiple(result.Item2[result.Item2.Count - 1] / 1000, 100) + 100;//Округляем до ближайшего целого значения кратного 100 и добавляем 100 запаса;
+                chartCHF.ChartAreas[0].AxisX.Minimum = pressureCHF - 1;
+                chartCHF.ChartAreas[0].AxisX.Maximum = pressureCHF + 1;
+                chartCHF.ChartAreas[0].AxisY.Interval = 50;
+                chartCHF.ChartAreas[0].AxisX.Interval = 1;
+                chartCHF.ChartAreas[0].CursorY.IsUserEnabled = true;
+                chartCHF.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+                chartCHF.ChartAreas[0].CursorX.IsUserEnabled = true;
+                chartCHF.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+
+                Expressions exp = new Expressions(pressureCHF);
+
+                double resYagov = exp.YagovCHF() / 1000;
+                double resKutateladze = exp.KutateladzeCHF() / 1000;
+                double resKandlikar = exp.KandlikarCHF() / 1000;
+
+                chartCHF.Series["Эксперимент"].Points.AddXY(pressureCHF, result.Item2[result.Item2.Count - 1] / 1000);
+                chartCHF.Series["Ягов"].Points.AddXY(pressureCHF, resYagov);
+                chartCHF.Series["Кутателадзе"].Points.AddXY(pressureCHF, resKutateladze);
+                chartCHF.Series["Кандликар"].Points.AddXY(pressureCHF, resKandlikar);
+
+                labelCHFIncrease.Visible = true;
+                label_Yagov.Visible = true;
+                label_Kutateladze.Visible = true;
+                label_Kandlikar.Visible = true;
+
+                label_Yagov.Text = $"Относительно Ягова - {Math.Round((result.Item2[result.Item2.Count - 1] / 1000 - resYagov) / resYagov * 100, 1)} %";
+                label_Kutateladze.Text = $"Относительно Кутателадзе - {Math.Round((result.Item2[result.Item2.Count - 1] / 1000 - resKutateladze) / resKutateladze * 100, 1)} %";
+                label_Kandlikar.Text = $"Относительно Кандликара- {Math.Round((result.Item2[result.Item2.Count - 1] / 1000 - resKandlikar) / resKandlikar * 100, 1)} %";
+            }
+
+            catch (Exception)
+            {
+                MessageBox.Show("Необходимо сначала обработать эксперимент!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void Box_PressureBC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedState = Box_PressureBC.SelectedItem.ToString().Split(' ')[0];
+            pressureBC = Convert.ToInt32(selectedState);
+        }
+
+        private void Box_PressureCHF_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedState = Box_PressureCHF.SelectedItem.ToString().Split(' ')[0];
+            pressureCHF = Convert.ToInt32(selectedState);
         }
 
         private void ChartBC_MouseMove(object sender, MouseEventArgs e)
@@ -361,6 +431,46 @@ namespace BoilingDataProcessingWF
         private void ChartBC_MouseLeave(object sender, EventArgs e)
         {
             tooltip.Hide(chartBC);
+            lastDataPoint = null;
+        }
+
+        private void ChartCHF_MouseMove(object sender, MouseEventArgs e)
+        {
+            // Получаем текущие координаты мыши
+            Point mousePoint = chartCHF.PointToClient(System.Windows.Forms.Cursor.Position);
+
+            // Поиск ближайшей точки на графике
+            HitTestResult result = chartCHF.HitTest(mousePoint.X, mousePoint.Y);
+
+            // Проверка, является ли результат точкой данных
+            if (result.ChartElementType == ChartElementType.DataPoint)
+            {
+                DataPoint dataPoint = result.Series.Points[result.PointIndex];
+
+                // Проверка, изменилась ли точка данных
+                if (lastDataPoint != dataPoint)
+                {
+                    // Обновление значения ToolTip
+                    double xValue = dataPoint.XValue;
+                    double yValue = dataPoint.YValues[0];
+                    tooltip.SetToolTip(chartCHF, $"X: {xValue}, Y: {yValue}");
+
+                    // Сохранить текущую точку данных
+                    lastDataPoint = dataPoint;
+                }
+            }
+
+            else
+            {
+                // Если мышь не наведена на точку данных, скрыть ToolTip
+                tooltip.Hide(chartCHF);
+            }
+
+        }
+
+        private void ChartCHF_MouseLeave(object sender, EventArgs e)
+        {
+            tooltip.Hide(chartCHF);
             lastDataPoint = null;
         }
 

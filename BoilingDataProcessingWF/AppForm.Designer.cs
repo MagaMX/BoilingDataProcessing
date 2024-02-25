@@ -30,8 +30,14 @@
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.openExperimentFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanelFull = new System.Windows.Forms.TableLayoutPanel();
             this.ProcessPanel = new System.Windows.Forms.Panel();
@@ -60,9 +66,17 @@
             this.checkBox_Logarithm = new System.Windows.Forms.CheckBox();
             this.button_GenerateChartCurve = new System.Windows.Forms.Button();
             this.labelPressureChoice = new System.Windows.Forms.Label();
-            this.box_Pressure = new System.Windows.Forms.ComboBox();
+            this.Box_PressureBC = new System.Windows.Forms.ComboBox();
             this.chartBC = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPageCHF = new System.Windows.Forms.TabPage();
+            this.label_Kandlikar = new System.Windows.Forms.Label();
+            this.label_Kutateladze = new System.Windows.Forms.Label();
+            this.label_Yagov = new System.Windows.Forms.Label();
+            this.labelCHFIncrease = new System.Windows.Forms.Label();
+            this.chartCHF = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.button_GenerateChartCHF = new System.Windows.Forms.Button();
+            this.labelPressureChoiceCHF = new System.Windows.Forms.Label();
+            this.Box_PressureCHF = new System.Windows.Forms.ComboBox();
             this.tabPageInfo = new System.Windows.Forms.TabPage();
             this.labelAuthor = new System.Windows.Forms.Label();
             this.labelVersion = new System.Windows.Forms.Label();
@@ -77,6 +91,8 @@
             this.tabPageBoilingCurves.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBC)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartBC)).BeginInit();
+            this.tabPageCHF.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartCHF)).BeginInit();
             this.tabPageInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).BeginInit();
             this.SuspendLayout();
@@ -342,7 +358,7 @@
             this.tabPageBoilingCurves.Controls.Add(this.checkBox_Logarithm);
             this.tabPageBoilingCurves.Controls.Add(this.button_GenerateChartCurve);
             this.tabPageBoilingCurves.Controls.Add(this.labelPressureChoice);
-            this.tabPageBoilingCurves.Controls.Add(this.box_Pressure);
+            this.tabPageBoilingCurves.Controls.Add(this.Box_PressureBC);
             this.tabPageBoilingCurves.Controls.Add(this.chartBC);
             this.tabPageBoilingCurves.Location = new System.Drawing.Point(4, 25);
             this.tabPageBoilingCurves.Name = "tabPageBoilingCurves";
@@ -400,14 +416,14 @@
             this.labelPressureChoice.TabIndex = 2;
             this.labelPressureChoice.Text = "Выберите давление:";
             // 
-            // box_Pressure
+            // Box_PressureBC
             // 
-            this.box_Pressure.FormattingEnabled = true;
-            this.box_Pressure.Location = new System.Drawing.Point(677, 26);
-            this.box_Pressure.Name = "box_Pressure";
-            this.box_Pressure.Size = new System.Drawing.Size(153, 24);
-            this.box_Pressure.TabIndex = 1;
-            this.box_Pressure.Tag = "";
+            this.Box_PressureBC.FormattingEnabled = true;
+            this.Box_PressureBC.Location = new System.Drawing.Point(677, 26);
+            this.Box_PressureBC.Name = "Box_PressureBC";
+            this.Box_PressureBC.Size = new System.Drawing.Size(153, 24);
+            this.Box_PressureBC.TabIndex = 1;
+            this.Box_PressureBC.Tag = "";
             // 
             // chartBC
             // 
@@ -422,35 +438,152 @@
             legend3.Name = "Legend1";
             legend3.ShadowColor = System.Drawing.Color.White;
             this.chartBC.Legends.Add(legend3);
-            this.chartBC.Location = new System.Drawing.Point(-4, 0);
+            this.chartBC.Location = new System.Drawing.Point(0, 0);
             this.chartBC.Name = "chartBC";
-            series5.BorderWidth = 2;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Color = System.Drawing.Color.Black;
-            series5.Legend = "Legend1";
-            series5.Name = "Кривая Ягова";
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series6.Legend = "Legend1";
-            series6.MarkerColor = System.Drawing.Color.Red;
-            series6.MarkerSize = 6;
-            series6.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
-            series6.Name = "Эксперимент";
-            this.chartBC.Series.Add(series5);
-            this.chartBC.Series.Add(series6);
-            this.chartBC.Size = new System.Drawing.Size(675, 441);
+            series7.BorderWidth = 2;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Color = System.Drawing.Color.Black;
+            series7.Legend = "Legend1";
+            series7.Name = "Кривая Ягова";
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series8.Legend = "Legend1";
+            series8.MarkerColor = System.Drawing.Color.Red;
+            series8.MarkerSize = 6;
+            series8.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+            series8.Name = "Эксперимент";
+            this.chartBC.Series.Add(series7);
+            this.chartBC.Series.Add(series8);
+            this.chartBC.Size = new System.Drawing.Size(675, 451);
             this.chartBC.TabIndex = 0;
             this.chartBC.Text = "chart1";
             // 
             // tabPageCHF
             // 
             this.tabPageCHF.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageCHF.Controls.Add(this.label_Kandlikar);
+            this.tabPageCHF.Controls.Add(this.label_Kutateladze);
+            this.tabPageCHF.Controls.Add(this.label_Yagov);
+            this.tabPageCHF.Controls.Add(this.labelCHFIncrease);
+            this.tabPageCHF.Controls.Add(this.chartCHF);
+            this.tabPageCHF.Controls.Add(this.button_GenerateChartCHF);
+            this.tabPageCHF.Controls.Add(this.labelPressureChoiceCHF);
+            this.tabPageCHF.Controls.Add(this.Box_PressureCHF);
             this.tabPageCHF.Location = new System.Drawing.Point(4, 25);
             this.tabPageCHF.Name = "tabPageCHF";
             this.tabPageCHF.Size = new System.Drawing.Size(874, 454);
             this.tabPageCHF.TabIndex = 2;
             this.tabPageCHF.Text = "КТП";
+            // 
+            // label_Kandlikar
+            // 
+            this.label_Kandlikar.AutoSize = true;
+            this.label_Kandlikar.Location = new System.Drawing.Point(491, 198);
+            this.label_Kandlikar.Name = "label_Kandlikar";
+            this.label_Kandlikar.Size = new System.Drawing.Size(78, 16);
+            this.label_Kandlikar.TabIndex = 9;
+            this.label_Kandlikar.Text = "Кандликар";
+            // 
+            // label_Kutateladze
+            // 
+            this.label_Kutateladze.AutoSize = true;
+            this.label_Kutateladze.Location = new System.Drawing.Point(491, 182);
+            this.label_Kutateladze.Name = "label_Kutateladze";
+            this.label_Kutateladze.Size = new System.Drawing.Size(93, 16);
+            this.label_Kutateladze.TabIndex = 8;
+            this.label_Kutateladze.Text = "Кутателадзе";
+            // 
+            // label_Yagov
+            // 
+            this.label_Yagov.AutoSize = true;
+            this.label_Yagov.Location = new System.Drawing.Point(491, 166);
+            this.label_Yagov.Name = "label_Yagov";
+            this.label_Yagov.Size = new System.Drawing.Size(39, 16);
+            this.label_Yagov.TabIndex = 7;
+            this.label_Yagov.Text = "Ягов";
+            // 
+            // labelCHFIncrease
+            // 
+            this.labelCHFIncrease.AutoSize = true;
+            this.labelCHFIncrease.Location = new System.Drawing.Point(491, 131);
+            this.labelCHFIncrease.Name = "labelCHFIncrease";
+            this.labelCHFIncrease.Size = new System.Drawing.Size(124, 16);
+            this.labelCHFIncrease.TabIndex = 6;
+            this.labelCHFIncrease.Text = "Увеличение  КТП:";
+            // 
+            // chartCHF
+            // 
+            this.chartCHF.BackColor = System.Drawing.SystemColors.Control;
+            chartArea4.AxisX.Title = "p, атм";
+            chartArea4.AxisX.TitleFont = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea4.AxisY.InterlacedColor = System.Drawing.Color.White;
+            chartArea4.AxisY.Title = "q,  кВт/м2";
+            chartArea4.AxisY.TitleFont = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea4.BackColor = System.Drawing.Color.White;
+            chartArea4.BackImageTransparentColor = System.Drawing.Color.White;
+            chartArea4.BackSecondaryColor = System.Drawing.Color.White;
+            chartArea4.Name = "ChartArea1";
+            this.chartCHF.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chartCHF.Legends.Add(legend4);
+            this.chartCHF.Location = new System.Drawing.Point(0, 0);
+            this.chartCHF.Name = "chartCHF";
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series9.Legend = "Legend1";
+            series9.MarkerSize = 8;
+            series9.Name = "Эксперимент";
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series10.Legend = "Legend1";
+            series10.MarkerSize = 8;
+            series10.Name = "Ягов";
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series11.Legend = "Legend1";
+            series11.MarkerSize = 8;
+            series11.Name = "Кутателадзе";
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series12.Legend = "Legend1";
+            series12.MarkerColor = System.Drawing.Color.DarkGreen;
+            series12.MarkerSize = 8;
+            series12.Name = "Кандликар";
+            this.chartCHF.Series.Add(series9);
+            this.chartCHF.Series.Add(series10);
+            this.chartCHF.Series.Add(series11);
+            this.chartCHF.Series.Add(series12);
+            this.chartCHF.Size = new System.Drawing.Size(675, 451);
+            this.chartCHF.TabIndex = 5;
+            this.chartCHF.Text = "chart1";
+            // 
+            // button_GenerateChartCHF
+            // 
+            this.button_GenerateChartCHF.Location = new System.Drawing.Point(677, 56);
+            this.button_GenerateChartCHF.Name = "button_GenerateChartCHF";
+            this.button_GenerateChartCHF.Size = new System.Drawing.Size(153, 32);
+            this.button_GenerateChartCHF.TabIndex = 4;
+            this.button_GenerateChartCHF.Text = "Построить график";
+            this.button_GenerateChartCHF.UseVisualStyleBackColor = true;
+            // 
+            // labelPressureChoiceCHF
+            // 
+            this.labelPressureChoiceCHF.AutoSize = true;
+            this.labelPressureChoiceCHF.Location = new System.Drawing.Point(677, 7);
+            this.labelPressureChoiceCHF.Name = "labelPressureChoiceCHF";
+            this.labelPressureChoiceCHF.Size = new System.Drawing.Size(142, 16);
+            this.labelPressureChoiceCHF.TabIndex = 3;
+            this.labelPressureChoiceCHF.Text = "Выберите давление:";
+            // 
+            // Box_PressureCHF
+            // 
+            this.Box_PressureCHF.FormattingEnabled = true;
+            this.Box_PressureCHF.Location = new System.Drawing.Point(677, 26);
+            this.Box_PressureCHF.Name = "Box_PressureCHF";
+            this.Box_PressureCHF.Size = new System.Drawing.Size(153, 24);
+            this.Box_PressureCHF.TabIndex = 2;
+            this.Box_PressureCHF.Tag = "";
             // 
             // tabPageInfo
             // 
@@ -511,7 +644,8 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(882, 483);
             this.Controls.Add(this.tabControl);
-            this.MinimumSize = new System.Drawing.Size(700, 400);
+            this.MaximumSize = new System.Drawing.Size(900, 530);
+            this.MinimumSize = new System.Drawing.Size(900, 530);
             this.Name = "AppForm";
             this.Text = "Boiling Data Processing";
             this.tableLayoutPanelFull.ResumeLayout(false);
@@ -525,6 +659,9 @@
             this.tabPageBoilingCurves.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBC)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartBC)).EndInit();
+            this.tabPageCHF.ResumeLayout(false);
+            this.tabPageCHF.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartCHF)).EndInit();
             this.tabPageInfo.ResumeLayout(false);
             this.tabPageInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxLogo)).EndInit();
@@ -558,7 +695,7 @@
         private System.Windows.Forms.TabPage tabPageBoilingCurves;
         private System.Windows.Forms.TabPage tabPageCHF;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartBC;
-        private System.Windows.Forms.ComboBox box_Pressure;
+        private System.Windows.Forms.ComboBox Box_PressureBC;
         private System.Windows.Forms.Label labelPressureChoice;
         private System.Windows.Forms.Button button_GenerateChartCurve;
         private System.Windows.Forms.CheckBox checkBox_Logarithm;
@@ -569,6 +706,14 @@
         private System.Windows.Forms.PictureBox pictureBoxLogo;
         private System.Windows.Forms.Label labelAuthor;
         private System.Windows.Forms.Label labelVersion;
+        private System.Windows.Forms.Label labelPressureChoiceCHF;
+        private System.Windows.Forms.ComboBox Box_PressureCHF;
+        private System.Windows.Forms.Button button_GenerateChartCHF;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartCHF;
+        private System.Windows.Forms.Label labelCHFIncrease;
+        private System.Windows.Forms.Label label_Kandlikar;
+        private System.Windows.Forms.Label label_Kutateladze;
+        private System.Windows.Forms.Label label_Yagov;
     }
 }
 
