@@ -23,6 +23,7 @@ namespace BoilingDataProcessingWF
             this.pressure = pressure - 1;
         }
         
+        //Задаем значения тфс для жидкости в зависимости от давления
         double[] lyambda = new[] {0.06178972, 0.057285861, 0.054392757, 0.052289392, 0.050391281};
         double[] t_sat = new[] {61.0, 84.04, 98.84, 109.6, 119.31};
         double[] nu = new[] {3.06E-7, 2.39E-7, 2.11E-7, 1.91E-7, 1.78E-7};
@@ -35,7 +36,7 @@ namespace BoilingDataProcessingWF
         double phi = 0;
         double g = 9.8;
 
-        public  List<double> YagovCurve()
+        public  List<double> YagovCurve()//Получение точек для построения кривой Ягова
         {
             List<double> yagov_curve_res = new();
             int[] delta_T = new int[30];
@@ -52,19 +53,19 @@ namespace BoilingDataProcessingWF
             return yagov_curve_res;
         }
 
-        public double KutateladzeCHF()
+        public double KutateladzeCHF()//Получение КТП по формуле Кутателадзе
         {
            kutateladze_chf_res = 0.14 * r[pressure] * Math.Sqrt(rho_vapour[pressure]) * Math.Pow(sigma[pressure] * g * (rho_liquid[pressure] - rho_vapour[pressure]), 0.25);
             return kutateladze_chf_res;
         }
 
-        public double YagovCHF()
+        public double YagovCHF()//Получение КТП по формуле Ягова
         {
             yagov_chf_res = 0.06 * r[pressure] * Math.Pow(rho_vapour[pressure], 0.6) * Math.Pow(sigma[pressure], 0.4) * Math.Pow((g  * (rho_liquid[pressure] - rho_vapour[pressure])) / mu[pressure], 0.2);
             return yagov_chf_res;
         }
 
-        public double KandlikarCHF()
+        public double KandlikarCHF()//Получение КТП по формуле Кандликара
         {
             kandlikar_chf_res = r[pressure] * Math.Pow(rho_vapour[pressure], 0.5) * ((1 + Math.Cos(teta * Math.PI / 180)) / 16) * Math.Pow((2/Math.PI) + (Math.PI/4) * (1 + Math.Cos(teta * Math.PI / 180)) * Math.Cos(phi * Math.PI / 180), 0.5) * Math.Pow(sigma[pressure] * g * (rho_liquid[pressure] - rho_vapour[pressure]), 0.25);
             return kandlikar_chf_res;

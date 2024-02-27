@@ -69,7 +69,7 @@ namespace BoilingDataProcessingWF
                 BackgroundWorker bgw = new BackgroundWorker();
                 bgw.WorkerReportsProgress = true;
 
-                bgw.DoWork += new DoWorkEventHandler(bgw_Process);
+                bgw.DoWork += new DoWorkEventHandler(bgw_Process);//Запуск
                 bgw.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
                 bgw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bgw_WorkComplete);
                 bgw.RunWorkerAsync();
@@ -84,7 +84,7 @@ namespace BoilingDataProcessingWF
 
         void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            customProgressBar.Value = e.ProgressPercentage;
+            customProgressBar.Value = e.ProgressPercentage;//Изменение процентов прогрессбара
         }
    
         private void bgw_WorkComplete(object sender, RunWorkerCompletedEventArgs e)
@@ -103,7 +103,7 @@ namespace BoilingDataProcessingWF
 
             try
             {
-                InFileXLSX.Read();
+                InFileXLSX.Read();//Считывание файла эксперимента
             }
             catch (Exception)
             {
@@ -116,7 +116,7 @@ namespace BoilingDataProcessingWF
 
             try 
             { 
-                InFileDOCX.Read(); 
+                InFileDOCX.Read(); //Считывание протокола
             } 
             catch (Exception)
             {
@@ -142,7 +142,7 @@ namespace BoilingDataProcessingWF
             worker.ReportProgress(100);
             Thread.Sleep(1000);
 
-            if (checkBox_OpenFile.Checked == true )
+            if (checkBox_OpenFile.Checked == true ) //Если выбран чек бокс запустить эксель
             {
                 System.Diagnostics.Process.Start(xlsx_path_out);
             }
@@ -209,7 +209,7 @@ namespace BoilingDataProcessingWF
 
         private void CheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox_CreateFile.Checked == true)
+            if (checkBox_CreateFile.Checked == true)//Создание нового эксель файла для вывода обработанных данных
             {
                 SaveFileDialog createFileDialog = new SaveFileDialog();
                 createFileDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
@@ -233,7 +233,7 @@ namespace BoilingDataProcessingWF
                 label_XLSX_out.Text = xlsx_path_out;
             }
 
-            else
+            else //Удалить файл если убран чек бокс
             {
                 XlsxFileHandler.DeleteFile(xlsx_path_out);
                 button_select_XLSX_out.Enabled = true;
@@ -246,6 +246,7 @@ namespace BoilingDataProcessingWF
         {
             try
             {
+                //Очистка графика каждый раз
                 chartBC.Series["Кривая Ягова"].Points.Clear();
                 chartBC.Series["Эксперимент"].Points.Clear();
 
@@ -294,6 +295,7 @@ namespace BoilingDataProcessingWF
 
                 List<double> res = exp.YagovCurve();
 
+                //Добавить точки данных на график
                 for (int i = 1; i < res.Count; i++)
                 {
                     chartBC.Series["Кривая Ягова"].Points.AddXY(i, res[i]);
@@ -335,6 +337,7 @@ namespace BoilingDataProcessingWF
         {
             try
             {
+                //Очистка графика каждый раз
                 chartCHF.Series["Эксперимент"].Points.Clear();
                 chartCHF.Series["Ягов"].Points.Clear();
                 chartCHF.Series["Кутателадзе"].Points.Clear();
@@ -361,6 +364,7 @@ namespace BoilingDataProcessingWF
                 double resKutateladze = exp.KutateladzeCHF() / 1000;
                 double resKandlikar = exp.KandlikarCHF() / 1000;
 
+                //Добавить точки данных на график
                 chartCHF.Series["Эксперимент"].Points.AddXY(pressureCHF, result.Item2[result.Item2.Count - 1] / 1000);
                 chartCHF.Series["Ягов"].Points.AddXY(pressureCHF, resYagov);
                 chartCHF.Series["Кутателадзе"].Points.AddXY(pressureCHF, resKutateladze);
@@ -371,6 +375,7 @@ namespace BoilingDataProcessingWF
                 label_Kutateladze.Visible = true;
                 label_Kandlikar.Visible = true;
 
+                //Вывести величину интенсификации КТП
                 label_Yagov.Text = $"Относительно Ягова - {Math.Round((result.Item2[result.Item2.Count - 1] / 1000 - resYagov) / resYagov * 100, 1)} %";
                 label_Kutateladze.Text = $"Относительно Кутателадзе - {Math.Round((result.Item2[result.Item2.Count - 1] / 1000 - resKutateladze) / resKutateladze * 100, 1)} %";
                 label_Kandlikar.Text = $"Относительно Кандликара- {Math.Round((result.Item2[result.Item2.Count - 1] / 1000 - resKandlikar) / resKandlikar * 100, 1)} %";
@@ -430,6 +435,7 @@ namespace BoilingDataProcessingWF
 
         private void ChartBC_MouseLeave(object sender, EventArgs e)
         {
+            //Когда мышка сдвинулась с точки очистить тултип и очистить значение переменной
             tooltip.Hide(chartBC);
             lastDataPoint = null;
         }
@@ -470,6 +476,7 @@ namespace BoilingDataProcessingWF
 
         private void ChartCHF_MouseLeave(object sender, EventArgs e)
         {
+            //Когда мышка сдвинулась с точки очистить тултип и очистить значение переменной
             tooltip.Hide(chartCHF);
             lastDataPoint = null;
         }
